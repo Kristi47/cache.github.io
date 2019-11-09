@@ -15,7 +15,13 @@ self.addEventListener('install', (event) => {
         caches.open(staticCacheName)
             .then( cache => {
                 console.log("Caching Files");
-                return cache.addAll(cacheAssets)
+                return cache.addAll([
+                    'icons.png',
+                    'index.html',
+                    'news.html',
+                    'style.css',
+                    'main.js'
+                ])
             })
             .catch(error => {
                 console.log("Error", error);
@@ -45,6 +51,7 @@ self.addEventListener('activate', (event) => {
 // Call Fetch Event
 self.addEventListener('fetch', (event) => {
     console.log("Fetching...");
+    console.log(event.request);
     event.respondWith(
         fetch(event.request).catch(() => caches.match(event.request))
     )
