@@ -1,10 +1,10 @@
+// Service Worker Lifecycle
+// Register
+// Install
+// Activate
+
+// cache name
 const staticCacheName  = 'v1';
-const cacheAssets = [
-    'index.html',
-    'about.html',
-    'style.css',
-    'main.js'
-];
 
 // Call Install Event
 self.addEventListener('install', (event) => {
@@ -32,7 +32,7 @@ self.addEventListener('install', (event) => {
 // Call Activate Event
 self.addEventListener('activate', (event) => {
     console.log("Service worker Activated");
-    // Remove unwanted caches
+    // Remove unwanted caches, older versions of cache
     event.waitUntil(
         caches.keys()
             .then( cacheNames => {
@@ -51,7 +51,6 @@ self.addEventListener('activate', (event) => {
 // Call Fetch Event
 self.addEventListener('fetch', (event) => {
     console.log("Fetching...");
-    console.log(event.request);
     event.respondWith(
         fetch(event.request).catch(() => caches.match(event.request))
     )
